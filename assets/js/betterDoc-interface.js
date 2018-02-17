@@ -1,46 +1,95 @@
 import { BetterDoc } from '../assets/js/betterDoc.js';
 
 $(() => {
-  let betterDoc = new BetterDoc();
   let doctors = {};
-  let queryTypeContainer = document.getElementById('queryTypeContainer');
-  let form = document.getElementById('formContainer');
-  let doctorNameDiv = document.getElementById('doctorNameDiv');
-  let keywordDiv = document.getElementById('keywordDiv');
+  let betterDoc = new BetterDoc();
+
+  // All needed element id's
   let backToQuerySelect = document.getElementById('backToQuerySelect');
-  let searchRequest = document.getElementById('searchRequest');
+  let divNameSearch = document.getElementById('divNameSearch');
+  let divSymptomSearch = document.getElementById('divSymptomSearch');
+  let form = document.getElementById('formContainer');
+  let inputNameSearch = document.getElementById('inline-name');
+  let inputKeywordSearch = document.getElementById('inline-keyword');
+  let queryContainer = document.getElementById('queryContainer');
+  let submitSearch = document.getElementById('submitSearch');
 
-  queryTypeContainer.addEventListener('click', (event) => {
-    console.log(event.target.id);
-
+  queryContainer.addEventListener('click', function(event) {
     if (event.target && event.target.matches("button.searchButton")) {
-      queryTypeContainer.classList.toggle('hidden');
+      // Hide query selection and show form
+      queryContainer.classList.toggle('hidden');
       form.classList.toggle('hidden');
 
+      // Query Type Selection ? searchDoctor : searchSymptom
       if (event.target.id == 'searchDoctor') {
-        // alert('Searching doc!');
-      } else if (event.target.id == 'searchSymptom') {
-        // alert('Searching symptom!');
-      }
+        // Display Doctor Name form input
+        divNameSearch.classList.remove('hidden');
+        divNameSearch.classList.add('md:flex');
+        // Clear Keyword form input
+        divSymptomSearch.classList.add('hidden');
+        divSymptomSearch.classList.remove('md:flex');
+        // Submit Search Button
+        submitSearch.classList.remove('searchSymptom');
+        submitSearch.classList.add('searchDoctor');
 
-      backToQuerySelect.addEventListener('click', () => {
-        queryTypeContainer.classList.remove('hidden');
-        form.classList.add('hidden');
+      } else if (event.target.id == 'searchSymptom') {
+        // Display Keyword form input
+        divSymptomSearch.classList.remove('hidden');
+        divSymptomSearch.classList.add('md:flex');
+        // Clear Doctor Name form input
+        divNameSearch.classList.add('hidden');
+        divNameSearch.classList.remove('md:flex');
+        // Submit Search Button
+        submitSearch.classList.remove('searchDoctor');
+        submitSearch.classList.add('searchSymptom');
+      } // End IF/Else Statement - event.target.id
+    } // End If Statment - event.target && event.target.matches
+  }); // End Listener - queryContainer
+
+  // Submit search
+  submitSearch.addEventListener('click', () => {
+    if (submitSearch.matches('button.searchDoctor')) {
+      console.log('Searching for Doctor!');
+
+      betterDoc.request('name','johnson').then((response) => {
+        let body = JSON.parse(response);
+
+        for (let i = 0; i < body.data.length; i++) {
+          doctors[i] = {
+            practices: body.data[i].practices,
+            profile: body.data[i].profile,
+            specialties: body.data[i].specialties
+          };
+        }
       });
 
+      console.log(doctors);
+
+    } else if (submitSearch.matches('button.searchSymptom')) {
+      console.log('Searching for Symptom!');
+
+      betterDoc.request('keyword','cough').then((response) => {
+        let body = JSON.parse(response);
+
+        for (let i = 0; i < body.data.length; i++) {
+          doctors[i] = {
+            practices: body.data[i].practices,
+            profile: body.data[i].profile,
+            specialties: body.data[i].specialties
+          };
+        }
+      });
+
+      console.log(doctors);
     }
   });
 
-  betterDoc.request('name','johnson').then((response) => {
-    let body = JSON.parse(response);
-
-    for (let i = 0; i < body.data.length; i++) {
-      doctors[i] = {
-        practices: body.data[i].practices,
-        profile: body.data[i].profile
-      };
-    }
+  // Back Button
+  backToQuerySelect.addEventListener('click', () => {
+    queryContainer.classList.remove('hidden');
+    form.classList.add('hidden');
   });
 
-  console.log(doctors);
+
+
 });
