@@ -4,3 +4,11 @@
 .searchButton {
   @apply .h-12 .shadow .bg-blue .text-white .font-light .py-2 .px-4 .rounded;
 }
+
+.input-field {
+  @apply .bg-grey-lighter .appearance-none .border-2 .border-grey-lighter  .rounded .w-full .py-2 .px-4 .text-grey-darker;
+}
+
+.label-field {
+  @apply .block .text-grey .font-bold .mb-1 .pr-4;
+}

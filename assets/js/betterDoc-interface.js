@@ -4,16 +4,30 @@ $(() => {
   let betterDoc = new BetterDoc();
   let doctors = {};
   let queryTypeContainer = document.getElementById('queryTypeContainer');
+  let form = document.getElementById('formContainer');
+  let doctorNameDiv = document.getElementById('doctorNameDiv');
+  let keywordDiv = document.getElementById('keywordDiv');
+  let backToQuerySelect = document.getElementById('backToQuerySelect');
+  let searchRequest = document.getElementById('searchRequest');
 
   queryTypeContainer.addEventListener('click', (event) => {
     console.log(event.target.id);
 
     if (event.target && event.target.matches("button.searchButton")) {
-        if (event.target.id == 'searchDoctor') {
-          alert('Searching doc!');
-        } else if (event.target.id == 'searchSymptom') {
-          alert('Searching symptom!');
-        }
+      queryTypeContainer.classList.toggle('hidden');
+      form.classList.toggle('hidden');
+
+      if (event.target.id == 'searchDoctor') {
+        // alert('Searching doc!');
+      } else if (event.target.id == 'searchSymptom') {
+        // alert('Searching symptom!');
+      }
+
+      backToQuerySelect.addEventListener('click', () => {
+        queryTypeContainer.classList.remove('hidden');
+        form.classList.add('hidden');
+      });
+
     }
   });
 
