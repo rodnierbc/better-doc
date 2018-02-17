@@ -1,0 +1,20 @@
+{
+  "name": "better-doc",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Abdullah Yahya <33635135+AbdulYahya@users.noreply.github.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
