@@ -4,8 +4,6 @@ export class BetterDoc {
   constructor() {}
 
   request(queryType, queryTerm) {
-    console.log(queryType);
-    console.log(queryTerm);
     return new Promise((resolve, reject) => {
       let apiRequest = new XMLHttpRequest();
       let url;
@@ -30,21 +28,4 @@ export class BetterDoc {
       apiRequest.send();
     });
   }
-
-  // searchByDoctorName(doctorName) {
-  //   this.request('name', doctorName).then((response) => {
-  //     let body = JSON.parse(response);
-  //
-  //     this.cache = {
-  //       ['name']: body
-  //     };
-  //     // this.cache.push(body);
-  //     // this.cache.name[doctorName] = {
-  //     //   body
-  //     // };
-  //   });
-  //
-  //   // console.log(this.cache);
-  //   return this.cache.name;
-  // }
 }
