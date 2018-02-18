@@ -24,7 +24,7 @@ export class BetterDoc {
       };
 
       apiRequest.open('GET', url, true);
-      apiRequest.setRequestHeader('Accept', 'application/json');
+      apiRequest.setRequestHeader('Accept', 'application/json; charset=utf-8');
       apiRequest.send();
     });
   }

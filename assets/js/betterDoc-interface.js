@@ -8,13 +8,14 @@ $(() => {
   let backToQuerySelect = document.getElementById('backToQuerySelect');
   let divNameSearch = document.getElementById('divNameSearch');
   let divSymptomSearch = document.getElementById('divSymptomSearch');
+  let docForm = document.getElementById('docForm');
   let form = document.getElementById('formContainer');
   let inputNameSearch = document.getElementById('inline-name');
   let inputKeywordSearch = document.getElementById('inline-keyword');
   let queryContainer = document.getElementById('queryContainer');
   let submitSearch = document.getElementById('submitSearch');
 
-  queryContainer.addEventListener('click', function(event) {
+  queryContainer.addEventListener('click', (event) => {
     if (event.target && event.target.matches("button.searchButton")) {
       // Hide query selection and show form
       queryContainer.classList.toggle('hidden');
@@ -47,11 +48,16 @@ $(() => {
   }); // End Listener - queryContainer
 
   // Submit search
-  submitSearch.addEventListener('click', () => {
+  docForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
     if (submitSearch.matches('button.searchDoctor')) {
       console.log('Searching for Doctor!');
 
-      betterDoc.request('name','johnson').then((response) => {
+      let input = $('#inline-name').val();
+      $('#inline-name').val('');
+
+      betterDoc.request('name', input).then((response) => {
         let body = JSON.parse(response);
 
         for (let i = 0; i < body.data.length; i++) {
@@ -68,7 +74,10 @@ $(() => {
     } else if (submitSearch.matches('button.searchSymptom')) {
       console.log('Searching for Symptom!');
 
-      betterDoc.request('keyword','cough').then((response) => {
+      let keyword = $('#inline-keyword').val();
+      $('#inline-keyword').val('');
+
+      betterDoc.request('keyword', keyword).then((response) => {
         let body = JSON.parse(response);
 
         for (let i = 0; i < body.data.length; i++) {
@@ -89,7 +98,6 @@ $(() => {
     queryContainer.classList.remove('hidden');
     form.classList.add('hidden');
   });
-
 
 
 });
