@@ -10,17 +10,15 @@
     <link rel="stylesheet" href="build/assets/css/app.css">
   </head>
   <body>
+
     <div class="container flex h-screen">
       <nav class="flex bg-blue-light p-3">
         <div class="flex items-center flex-no-shrink text-white mr-2">
-          <svg class="stroke-current text-white inline-block h-8 w-8 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="8" cy="21" r="2"></circle>
-            <circle cx="20" cy="21" r="2"></circle>
-            <path d="M5.67 6H23l-1.68 8.39a2 2 0 0 1-2 1.61H8.75a2 2 0 0 1-2-1.74L5.23 2.74A2 2 0 0 0 3.25 1H1"></path>
-          </svg>
+          <img class="mr-2" src="build/assets/images/doctor.svg" height="34">
           <span class="font-semibold text-xl tracking-tight">Find a Doc</span>
         </div>
       </nav>
+
       <div id="queryContainer" class="my-auto mx-auto max-w-2xl w-2/5 rounded overflow-hidden shadow-lg">
         <div class="py-6 px-6">
           <div class="flex justify-between mx-4">
@@ -39,6 +37,14 @@
       </div>
 
       <div id="formContainer" class="my-auto mx-auto max-w-5xl w-1/2 rounded overflow-hidden shadow-lg hidden">
+        <div id="warningBox" class="bg-red-lightest border-l-4 border-orange text-orange-dark p-4 hidden" role="alert">
+          <p class="font-bold">Be Warned</p>
+          <p>Something not ideal might be happening.</p>
+        </div>
+        <div id="infoBox" class="items-center bg-blue-lightest text-orange text-sm font-bold px-4 py-3 hidden" role="alert">
+          <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z"/></svg>
+          <p>Sorry, your search term yielded no results! Please try re-wording your search term and try again.</p>
+        </div>
         <form id="docForm" class="w-full max-w-5xl py-6 px-6">
           <div id="divNameSearch" class="md:items-center mb-6 hidden">
             <div>

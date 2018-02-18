@@ -28,4 +28,21 @@ export class BetterDoc {
       apiRequest.send();
     });
   }
+
+  displayInfo() {
+    infoBox.classList.toggle('hidden');
+    infoBox.classList.toggle('flex');
+
+    setTimeout(() => {
+      $('#infoBox').fadeOut(2000);
+    }, 5000);
+  }
+
+  displayWarning() {
+    warningBox.classList.toggle('hidden');
+
+    setTimeout(() => {
+      $('warningBox').fadeOut(2000);
+    }, 5000);
+  }
 }
