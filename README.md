@@ -1,5 +1,5 @@
-<p align="center"><img width="12.5%" src="assets/images/better-doc_ico.svg"></p>
-<p align="center"><img width="60%" src="src/media/better-doc_logo.png"></p>
+<p align="center"><img width="12.5%" src="assets/images/Better-Doc_ico.png"></p>
+<p align="center"><img width="60%" src="assets/images/BetterDoc_logo.png"></p>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 [![Project Version](https://img.shields.io/badge/Ver.-0.1.0-brightgreen.svg?style=for-the-badge)](https://github.com/AbdulYahya/js-gulp-gen)
@@ -55,7 +55,7 @@ $ gulp serve --prod
 
 ----
 
-###### :bangbang: 
+###### :bangbang:
 
 
 ## License
