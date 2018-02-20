@@ -1,10 +1,7 @@
 import { BetterDoc } from '../assets/js/betterDoc.js';
 
 $(() => {
-  let doctors = {};
   let betterDoc = new BetterDoc();
-
-  // All needed element id's
   let backToQuerySelect = document.getElementById('backToQuerySelect');
   let divNameSearch = document.getElementById('divNameSearch');
   let divSymptomSearch = document.getElementById('divSymptomSearch');
@@ -19,11 +16,9 @@ $(() => {
 
   queryContainer.addEventListener('click', (event) => {
     if (event.target && event.target.matches("button.searchButton")) {
-      // Hide query selection and show form
       queryContainer.classList.toggle('hidden');
       form.classList.toggle('hidden');
 
-      // Query Type Selection ? searchDoctor : searchSymptom
       if (event.target.id == 'searchDoctor') {
         // Display Doctor Name form input
         divNameSearch.classList.remove('hidden');
@@ -45,37 +40,45 @@ $(() => {
         // Submit Search Button
         submitSearch.classList.remove('searchDoctor');
         submitSearch.classList.add('searchSymptom');
-      } // End IF/Else Statement - event.target.id
-    } // End If Statment - event.target && event.target.matches
-  }); // End Listener - queryContainer
+      }
+    }
+  });
 
-  // Submit search
   docForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    let doctors;
 
     if (submitSearch.matches('button.searchDoctor')) {
       let input = $('#inline-name').val();
       $('#inline-name').val('');
 
-      betterDoc.request('name', input).then((response) => {
+      betterDoc.request('name', input).then(function(response) {
         let body = JSON.parse(response);
+        doctors = betterDoc.searchResult('name', body);
 
-        if (body.data.length <= 0) {
-          betterDoc.displayInfo();
-        } else if (body.data.length > 0) {
+        if (doctors) {
           for (let i = 0; i < body.data.length; i++) {
-            doctors[i] = {
-              practices: body.data[i].practices,
-              profile: body.data[i].profile,
-              specialties: body.data[i].specialties
-            };
+            form.classList.add('hidden');
+            $('#results').append('<div class="max-w-md w-full my-auto lg:flex">' +
+                                    `<div class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url('${doctors.name[i].profile.image_url}')" title="Picture of the Doctor"></div>` +
+                                    '<div class="border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">' +
+                                      '<div class="mb-8">' +
+                                        '<p class="text-sm text-grey-dark flex items-center">' +
+                                          '<svg class="fill-current text-grey w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">' +
+                                            '<path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />' +
+                                          '</svg>' +
+                                          `${doctors.name[i].profile.first_name} ${doctors.name[i].profile.last_name}` +
+                                        '</p>' +
+                                        '<div class="text-black font-bold text-xl mb-2"></div>' +
+                                        `<p class="text-grey-darker text-base">Accepting new patients: ${doctors.name[i].practices[0].accepts_new_patients}</p>` +
+                                        `<p class="text-grey-darker text-base">Address: ${doctors.name[i].practices[0].visit_address.street} ${doctors.name[i].practices[0].visit_address.city} ${doctors.name[i].practices[0].visit_address.state} ${doctors.name[i].practices[0].visit_address.zip}</p>` +
+                                        `<p class="text-grey-darker text-base">Phone Number: ${doctors.name[i].practices[0].phones[0].number}</p>` +
+                                      '</div>' +
+                                    '</div>' +
+                                  '</div>');
           }
-        } else {
-          betterDoc.displayWarning();
         }
       });
-      console.log(doctors);
-
     } else if (submitSearch.matches('button.searchSymptom')) {
 
       let keyword = $('#inline-keyword').val();
@@ -83,29 +86,37 @@ $(() => {
 
       betterDoc.request('keyword', keyword).then((response) => {
         let body = JSON.parse(response);
+        doctors = betterDoc.searchResult('keyword', body);
 
-        if (body.data.length <= 0) {
-          betterDoc.displayInfo();
-        } else if (body.data.length > 0) {
+        if (doctors) {
           for (let i = 0; i < body.data.length; i++) {
-            doctors[i] = {
-              practices: body.data[i].practices,
-              profile: body.data[i].profile,
-              specialties: body.data[i].specialties
-            };
+            form.classList.add('hidden');
+            $('#results').append('<div class="max-w-md w-full my-auto lg:flex">' +
+                                    `<div class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url('${doctors.keyword[i].profile.image_url}')" title="Picture of the Doctor"></div>` +
+                                    '<div class="border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">' +
+                                      '<div class="mb-8">' +
+                                        '<p class="text-sm text-grey-dark flex items-center">' +
+                                          '<svg class="fill-current text-grey w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">' +
+                                            '<path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />' +
+                                          '</svg>' +
+                                          `${doctors.keyword[i].profile.first_name} ${doctors.keyword[i].profile.last_name}` +
+                                        '</p>' +
+                                        '<div class="text-black font-bold text-xl mb-2"></div>' +
+                                        `<p class="text-grey-darker text-base">Accepting new patients: ${doctors.keyword[i].practices[0].accepts_new_patients}</p>` +
+                                        `<p class="text-grey-darker text-base">Address: ${doctors.keyword[i].practices[0].visit_address.street} ${doctors.keyword[i].practices[0].visit_address.city} ${doctors.keyword[i].practices[0].visit_address.state} ${doctors.keyword[i].practices[0].visit_address.zip}</p>` +
+                                        `<p class="text-grey-darker text-base">Phone Number: ${doctors.keyword[i].practices[0].phones[0].number}</p>` +
+                                      '</div>' +
+                                    '</div>' +
+                                  '</div>');
           }
-        } else {
-          betterDoc.displayWarning();
         }
       });
-
-      console.log(doctors);
     }
   });
 
-  // Back Button
   backToQuerySelect.addEventListener('click', () => {
     queryContainer.classList.remove('hidden');
     form.classList.add('hidden');
   });
+
 });
