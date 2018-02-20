@@ -8,13 +8,16 @@ $(() => {
   let backToQuerySelect = document.getElementById('backToQuerySelect');
   let divNameSearch = document.getElementById('divNameSearch');
   let divSymptomSearch = document.getElementById('divSymptomSearch');
+  let docForm = document.getElementById('docForm');
   let form = document.getElementById('formContainer');
+  let infoBox = document.getElementById('infoBox');
   let inputNameSearch = document.getElementById('inline-name');
   let inputKeywordSearch = document.getElementById('inline-keyword');
   let queryContainer = document.getElementById('queryContainer');
   let submitSearch = document.getElementById('submitSearch');
+  let warningBox = document.getElementById('warningBox');
 
-  queryContainer.addEventListener('click', function(event) {
+  queryContainer.addEventListener('click', (event) => {
     if (event.target && event.target.matches("button.searchButton")) {
       // Hide query selection and show form
       queryContainer.classList.toggle('hidden');
@@ -47,36 +50,52 @@ $(() => {
   }); // End Listener - queryContainer
 
   // Submit search
-  submitSearch.addEventListener('click', () => {
-    if (submitSearch.matches('button.searchDoctor')) {
-      console.log('Searching for Doctor!');
+  docForm.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-      betterDoc.request('name','johnson').then((response) => {
+    if (submitSearch.matches('button.searchDoctor')) {
+      let input = $('#inline-name').val();
+      $('#inline-name').val('');
+
+      betterDoc.request('name', input).then((response) => {
         let body = JSON.parse(response);
 
-        for (let i = 0; i < body.data.length; i++) {
-          doctors[i] = {
-            practices: body.data[i].practices,
-            profile: body.data[i].profile,
-            specialties: body.data[i].specialties
-          };
+        if (body.data.length <= 0) {
+          betterDoc.displayInfo();
+        } else if (body.data.length > 0) {
+          for (let i = 0; i < body.data.length; i++) {
+            doctors[i] = {
+              practices: body.data[i].practices,
+              profile: body.data[i].profile,
+              specialties: body.data[i].specialties
+            };
+          }
+        } else {
+          betterDoc.displayWarning();
         }
       });
-
       console.log(doctors);
 
     } else if (submitSearch.matches('button.searchSymptom')) {
-      console.log('Searching for Symptom!');
 
-      betterDoc.request('keyword','cough').then((response) => {
+      let keyword = $('#inline-keyword').val();
+      $('#inline-keyword').val('');
+
+      betterDoc.request('keyword', keyword).then((response) => {
         let body = JSON.parse(response);
 
-        for (let i = 0; i < body.data.length; i++) {
-          doctors[i] = {
-            practices: body.data[i].practices,
-            profile: body.data[i].profile,
-            specialties: body.data[i].specialties
-          };
+        if (body.data.length <= 0) {
+          betterDoc.displayInfo();
+        } else if (body.data.length > 0) {
+          for (let i = 0; i < body.data.length; i++) {
+            doctors[i] = {
+              practices: body.data[i].practices,
+              profile: body.data[i].profile,
+              specialties: body.data[i].specialties
+            };
+          }
+        } else {
+          betterDoc.displayWarning();
         }
       });
 
@@ -89,7 +108,4 @@ $(() => {
     queryContainer.classList.remove('hidden');
     form.classList.add('hidden');
   });
-
-
-
 });

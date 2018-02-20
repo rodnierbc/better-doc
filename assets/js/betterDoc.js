@@ -24,8 +24,25 @@ export class BetterDoc {
       };
 
       apiRequest.open('GET', url, true);
-      apiRequest.setRequestHeader('Accept', 'application/json');
+      apiRequest.setRequestHeader('Accept', 'application/json; charset=utf-8');
       apiRequest.send();
     });
+  }
+
+  displayInfo() {
+    infoBox.classList.toggle('hidden');
+    infoBox.classList.toggle('flex');
+
+    setTimeout(() => {
+      $('#infoBox').fadeOut(2000);
+    }, 5000);
+  }
+
+  displayWarning() {
+    warningBox.classList.toggle('hidden');
+
+    setTimeout(() => {
+      $('warningBox').fadeOut(2000);
+    }, 5000);
   }
 }
